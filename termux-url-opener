@@ -1,0 +1,83 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# 2020-10-20  ::   alephalpha0@rootofpi.me
+###########################################################
+# script to take urls shared to termux from android apps,
+# and download the playlist, video, file or page. I'm 
+# trying to preempt myself and guess my general reasons for
+# sharing to termux.
+# main use in my eyes is downloading raw files from github,
+# and downloading videos from youtube.. 
+###########################################################
+
+###########TODO
+# Pretty up the script.
+# Add more cases to murl options.
+# Make it command-line ready?
+
+### SCRIPT VARIABLES
+#sets URL to the url shared/passed to termux
+readonly URL=${1}
+readonly PROGDIR=$(readlink -m $(dirname ${0}))
+readonly PROGNAME=$(basename ${0})
+readonly ARGS=${@}
+
+dirExists() {
+    # the subdirectory we are checking.
+	local silkMouth=${1}
+
+	if [ -d ~/downloads/${silkMouth} ]
+	then
+	    cd ~/downloads/${silkMouth}
+	else
+	    mkdir ~/downloads/${silkMouth}
+	    cd ~/downloads/${silkMouth}
+	fi
+}
+
+
+
+main(){
+
+#get the file extension being passed to termux
+local EXT="${URL#*.}"
+# the base download dir
+local DIR=~/downloads/
+# the file to download into if not video/audio
+local file=${URL}
+
+#######################################
+## Main logic block. First will check
+## that we didn't accidentally get
+## passed an empty string. If so, we
+## exit, hopefully gracefully like a
+## lady.
+if [ -z ${URL} ]; then
+    echo "You've passed an empty string to the script. "
+    exit
+else
+    case ${URL} in
+      *playlist*) #check to see if incoming url is a youtube playlist
+          dirExists music # see if ${DIR}/music exists & cd, if not mkdir & cd 
+          youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 -o "%(playlist_title)s/%(playlist_index)02d-%(title)s.%(ext)s" ${URL}
+      ;;      
+      *youtube*) # check to see if url is coming from youtube, phase 1
+          dirExists videos # see if ${DIR}/videos exists & cd, if not mkdir & cd
+          youtube-dl -o "%(uploader)s-%(title)s.%(ext)s" ${URL}
+      ;;
+      *youtu.be*) # check to see if url is coming from youtube, phase 2
+          dirExists videos # see if ${DIR}/videos exists & cd, if not mkdir & cd
+          youtube-dl -o "%(uploader)s-%(title)s.%(ext)s" ${URL}
+      ;;
+      *github*) # check to see if url is coming from github.
+      # ASSUMPTION: A SINGLE RAW FILE PATH IS BEING PASSED!!
+          cd ${DIR}
+          wget --show-progress ${URL}
+      ;;
+      *)
+          echo "I'm not sure what you want me to do here..."
+      ;;
+    esac
+fi
+}
+main

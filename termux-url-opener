@@ -12,7 +12,7 @@
 
 ###########TODO
 # Pretty up the script.
-# Add more cases to murl options.
+# Add more cases to url options.
 # Make it command-line ready?
 
 ### SCRIPT VARIABLES
@@ -43,19 +43,17 @@ main(){
 local EXT="${URL#*.}"
 # the base download dir
 local DIR=~/downloads/
-# the file to download into if not video/audio
-local file=${URL}
 
 #######################################
-## Main logic block. First will check
-## that we didn't accidentally get
-## passed an empty string. If so, we
-## exit, hopefully gracefully like a
-## lady.
+# Main logic block. First will check ## that we didn't accidentally get
+# passed an empty string. If so, we exit, hopefully gracefully like a
+# lady.
 if [ -z ${URL} ]; then
     echo "You've passed an empty string to the script. "
     exit
 else
+#######################################
+# Logic train using case on URL parts to see how to handle downloading.
     case ${URL} in
       *playlist*) #check to see if incoming url is a youtube playlist
           dirExists music # see if ${DIR}/music exists & cd, if not mkdir & cd 
@@ -63,16 +61,19 @@ else
       ;;      
       *youtube*) # check to see if url is coming from youtube, phase 1
           dirExists videos # see if ${DIR}/videos exists & cd, if not mkdir & cd
-          youtube-dl -o "%(uploader)s-%(title)s.%(ext)s" ${URL}
+          youtube-dl -o "%(title)s.%(ext)s" ${URL}
       ;;
       *youtu.be*) # check to see if url is coming from youtube, phase 2
           dirExists videos # see if ${DIR}/videos exists & cd, if not mkdir & cd
-          youtube-dl -o "%(uploader)s-%(title)s.%(ext)s" ${URL}
+          youtube-dl -o "%(title)s.%(ext)s" ${URL}
       ;;
-      *github*) # check to see if url is coming from github.
-      # ASSUMPTION: A SINGLE RAW FILE PATH IS BEING PASSED!!
-          cd ${DIR}
-          wget --show-progress ${URL}
+      *raw.github*) # check to see if url is coming from github.
+          cd ${DIR} # cd to ~/downloads
+          wget --show-progress ${URL} 
+      ;;
+      *.tar.bz2*) # getting an archive file from the web
+          cd ${DIR} # cd to ~/downloads
+          wget --show-progress ${URL} 
       ;;
       *)
           echo "I'm not sure what you want me to do here..."

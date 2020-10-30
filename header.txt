@@ -1,0 +1,23 @@
+##################################################
+## alephalpha0  |                               ##
+## created:2020-XX-XX   |  modified:2020-XX-XX  ##
+##----------------------------------------------##
+##   TERMUX 0.99 RUNNING ON ANDROID 10@A205U    ##
+##        https://github.com/alephalpha0        ##
+##            http://rootofpi.me                ##
+####################           ###################
+#############                        #############
+## Many thanks to those who have shared and     ##
+## discussed their dotfiles/source code/scripts ## 
+## on blogs, stackoverflow, dev.to, gitlab /    ##
+## github, and any open forum for ideas on the  ##
+##  world wide web. I am continually learning   ##
+## and discovering new things because of you.   ##
+##################################################
+## There is no LICENSE attached to this file.   ##
+##     I require no attribute for its use.      ##
+## Do what thou will. That's the whole of law.  ##
+##----------------------------------------------##
+##!!!!!!!!!!NO WARRANTY PROVIDED FOR!!!!!!!!!!!!##
+##!!!!!!!!!!!ANY POSSIBLE USE EITHER!!!!!!!!!!!!##
+##################################################

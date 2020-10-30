@@ -1,12 +1,35 @@
 #!/data/data/com.termux/files/usr/bin/bash
-
-# 2020-10-20  ::   alephalpha0@rootofpi.me
-###########################################################
-# script to take urls shared to termux from android apps,
-# and download the playlist, video, file or page. I'm 
-# trying to preempt myself and guess my general reasons for
-# sharing to termux.
-# main use in my eyes is downloading raw files from github,
+##################################################
+## alephalpha0  |  Download files passed to me. ##
+## created:2020-10-20   |  modified:2020-10-30  ##
+##----------------------------------------------##
+##        https://github.com/alephalpha0        ##
+##            http://rootofpi.me                ##
+####################           ###################
+#############                        #############
+## Many thanks to those who have shared and     ##
+## discussed their dotfiles/source code/scripts ## 
+## on blogs, stackoverflow, dev.to, gitlab /    ##
+## github, and any open forum for ideas on the  ##
+##  world wide web. I am continually learning   ##
+## and discovering new things because of you.   ##
+##################################################
+## There is no LICENSE attached to this file.   ##
+##     I require no attribute for its use.      ##
+## Do what thou will. That's the whole of law.  ##
+##----------------------------------------------##
+##!!!!!!!!!!NO WARRANTY PROVIDED FOR!!!!!!!!!!!!##
+##!!!!!!!!!!!ANY POSSIBLE USE EITHER!!!!!!!!!!!!##
+##################################################
+# Script takes urls passed to it and downloads the 
+# playlist, video, file or page to ~/downloads/*. 
+#
+# I'm using it as the script termux uses when a url
+# is passed to it from amother app.
+#
+# Trying to preempt myself and guess my general 
+# reasons for sharing to termux. Main use in my 
+# eyes is downloading raw files from github,
 # and downloading videos from youtube.. 
 ###########################################################
 

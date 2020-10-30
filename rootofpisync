@@ -1,0 +1,30 @@
+#!/data/data/com.termux/files/usr/bin/sh
+##################################################
+## alephalpha0  |   Sync website dir to phone.  ##
+## created:2020-10-19   |  modified:2020-10-30  ##
+##----------------------------------------------##
+##        https://github.com/alephalpha0        ##
+##            http://rootofpi.me                ##
+####################           ###################
+#############                        #############
+## Many thanks to those who have shared and     ##
+## discussed their dotfiles/source code/scripts ## 
+## on blogs, stackoverflow, dev.to, gitlab /    ##
+## github, and any open forum for ideas on the  ##
+##  world wide web. I am continually learning   ##
+## and discovering new things because of you.   ##
+##################################################
+## There is no LICENSE attached to this file.   ##
+##     I require no attribute for its use.      ##
+## Do what thou will. That's the whole of law.  ##
+##----------------------------------------------##
+##!!!!!!!!!!NO WARRANTY PROVIDED FOR!!!!!!!!!!!!##
+##!!!!!!!!!!!ANY POSSIBLE USE EITHER!!!!!!!!!!!!##
+##################################################
+## Script has one function: cd into my website's 
+## dir and copy the entirety of it via rsync into
+## my phone's internal storage. Redundant back up
+## for the win! 
+
+cd ~/rootofpi.me/
+cpy * ~/storage/shared/rootofpi.me/

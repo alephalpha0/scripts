@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 ##################################################
 ## alephalpha0  |  Download files passed to me. ##
-## created:2020-10-20   |  modified:2020-10-30  ##
+## created:2020-10-20   |  modified:2020-10-31  ##
 ##----------------------------------------------##
 ##        https://github.com/alephalpha0        ##
 ##            http://rootofpi.me                ##
@@ -33,74 +33,100 @@
 # and downloading videos from youtube.. 
 ###########################################################
 
-###########TODO
+###TODO
 # Pretty up the script.
 # Add more cases to url options.
 # Make it command-line ready?
 
 ### SCRIPT VARIABLES
 #sets URL to the url shared/passed to termux
-readonly URL=${1}
-readonly PROGDIR=$(readlink -m $(dirname ${0}))
-readonly PROGNAME=$(basename ${0})
-readonly ARGS=${@}
+readonly ARGS=("${@}")
+readonly URL="${ARGS[1]}"
 
+##################################################
+# Gracefully exit on error like a lady.
+likeALady() {
+	echo "That dir does not appear in our time line."
+	return
+}
+
+
+##################################################
+# Two-step tussle to figure out if the dir exists. 
+# if not mkdir & cd into dir, if so just cd into it.
 dirExists() {
-    # the subdirectory we are checking.
-	local silkMouth=${1}
+    #the subdirectory we are checking.
+	local silkMouth="${1}"
 
-	if [ -d ~/downloads/${silkMouth} ]
+	if [ -d ~/downloads/"${silkMouth}" ]
 	then
-	    cd ~/downloads/${silkMouth}
+	    cd ~/downloads/"${silkMouth}" || likeALady
 	else
-	    mkdir ~/downloads/${silkMouth}
-	    cd ~/downloads/${silkMouth}
+	    mkdir ~/downloads/"${silkMouth}"
+	    cd ~/downloads/"${silkMouth}" || likeALady
 	fi
 }
 
 
-
 main(){
-
-#get the file extension being passed to termux
-local EXT="${URL#*.}"
 # the base download dir
 local DIR=~/downloads/
 
-#######################################
-# Main logic block. First will check ## that we didn't accidentally get
-# passed an empty string. If so, we exit, hopefully gracefully like a
-# lady.
-if [ -z ${URL} ]; then
+##################################################
+# Main logic block. First will check that we 
+# didn't accidentally get passed an empty string. 
+# If so, we exit, hopefully gracefully like a lady.
+if [ -z "${URL}" ]; then
     echo "You've passed an empty string to the script. "
     exit
 else
-#######################################
-# Logic train using case on URL parts to see how to handle downloading.
+##################################################
+# Logic train using case on URL parts to see how 
+# to handle downloading.
     case ${URL} in
-      *playlist*) #check to see if incoming url is a youtube playlist
-          dirExists music # see if ${DIR}/music exists & cd, if not mkdir & cd 
-          youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 -o "%(playlist_title)s/%(playlist_index)02d-%(title)s.%(ext)s" ${URL}
-      ;;      
-      *youtube*) # check to see if url is coming from youtube, phase 1
-          dirExists videos # see if ${DIR}/videos exists & cd, if not mkdir & cd
-          youtube-dl -o "%(title)s.%(ext)s" ${URL}
-      ;;
-      *youtu.be*) # check to see if url is coming from youtube, phase 2
-          dirExists videos # see if ${DIR}/videos exists & cd, if not mkdir & cd
-          youtube-dl -o "%(title)s.%(ext)s" ${URL}
-      ;;
-      *raw.github*) # check to see if url is coming from github.
-          cd ${DIR} # cd to ~/downloads
-          wget --show-progress ${URL} 
-      ;;
-      *.tar.bz2*) # getting an archive file from the web
-          cd ${DIR} # cd to ~/downloads
-          wget --show-progress ${URL} 
-      ;;
-      *)
-          echo "I'm not sure what you want me to do here..."
-      ;;
+    
+    *playlist*) #check if url is a youtube playlist
+        dirExists music #check ${DIR}/music exists & cd
+        youtube-dl --extract-audio --audio-format mp3 \
+        --audio-quality 0 \
+        -o "%(playlist_title)s/%(playlist_index)02d-%(title)s.%(ext)s" \
+        "${URL}"
+    ;;
+         
+    *youtube*) #check if url is youtube, phase 1
+        dirExists videos #check ${DIR}/videos exists &cd 
+        youtube-dl -o "%(title)s.%(ext)s" "${URL}"
+    ;;
+      
+    *youtu.be*) #check if url is youtube, phase 2
+        dirExists videos #check ${DIR}/videos exists &cd
+        youtube-dl -o "%(title)s.%(ext)s" "${URL}"
+    ;;
+      
+    *github*) #check if url is github.
+        cd "${DIR}" || likeALady   #cd to ~/downloads
+        wget --show-progress "${URL}" 
+    ;;
+      
+    *.tar.bz2) # getting an archive file from the web
+        cd "${DIR}" || likeALady   #cd to ~/downloads
+        wget --show-progress "${URL}" 
+    ;;
+      
+    *pornhub*) # yeah so what?
+        dirExists porn # does ${DIR}/porn exist?
+        youtube-dl "${URL}"
+    ;;
+      
+    *blog*)
+        cd "${DIR}" || likeALady
+        wget --adjust-extension --span-hosts --convert-links \
+        --backup-converted --page-requisites "${URL}" 
+    ;;
+      
+    *)
+        echo "I'm not sure what you want me to do here..."
+    ;;
     esac
 fi
 }

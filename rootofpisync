@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/sh
+#!/data/data/com.termux/files/usr/bin/bash
 ##################################################
 ## alephalpha0  |   Sync website dir to phone.  ##
 ## created:2020-10-19   |  modified:2020-10-30  ##
@@ -26,5 +26,32 @@
 ## my phone's internal storage. Redundant back up
 ## for the win! 
 
-cd ~/rootofpi.me/
-rsync -avz --checksum --progress -h * ~/storage/shared/rootofpi.me/
+##################################################
+# Gracefully exit on error like a lady.
+likeALady() {
+	echo "That dir does not appear in our time line."
+	return
+}
+
+main() {
+	local termuxPath=~/rootofpi.me/
+	local phonePath=~/storage/shared/rootofpi.me
+    if [ -d "${termuxPath}" ]
+    then
+    
+	  if [ "${termuxPath}" -nt "${phonePath}" ]
+	  then
+	    rsync -avz --checksum --progress -h \
+	    "${termuxPath}" "${phonePath}"
+	  else
+	    echo "Seems the directories are already in sync."
+	    exit
+	  fi
+
+	else
+	  echo "Your main ROP directory isn't there. \
+	  What's wrong?"
+	  exit
+	fi  
+}
+main

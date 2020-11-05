@@ -1,0 +1,28 @@
+| Exit Code    |  Meaning			|  Example  		|  Comments
+|  Number	   |                    |                   |
+|______________|____________________|___________________|_____________________   
+|    1	       | Catchall for       | let "var1 = 1/0"  | Miscellaneous errors, 
+|              | general errors		|                   | such as "divide by zero" 
+|              |                    |                   | and other impermissible operations.
+|______________|____________________|___________________|_____________________
+|    2         | Misuse of shell    | empty_function()  | Missing keyword or command, or permission 
+|              | builtins (Bash     | {}                | problem (and diff return code on a failed 
+|              | docs)		        |                   | binary file comparison).
+|______________|____________________|___________________|_____________________
+|    126       | Command invoked    | /dev/null         | Permission problem or command is not an executable
+|              | cannot execute	    |	                |
+|______________|____________________|___________________|_____________________
+|    127       | "command not       | illegal_command   | Possible problem with $PATH or a typo 
+|              | found"		        |                   |
+|______________|____________________|___________________|_____________________
+|    128       | Invalid argument   | exit 3.14159      | exit takes only integer args in the 
+|              | to exit		    |                   | range 0 - 255 
+|______________|____________________|___________________|_____________________
+|    128+n     | Fatal error signal | kill -9 $PPID of  | $? returns 137 (128 + 9)  
+|              |   "n"              | script		    |
+|______________|____________________|___________________|_____________________
+|    130       | Script terminated  | Ctl-C	            | Control-C is fatal error signal 2, 
+|              | by Control-C	    |                   | (130 = 128 + 2, see above)
+|______________|____________________|___________________|_____________________
+|    255*      | Exit status out    | exit -1	        | exit takes only integer args in  
+|              | of range	        |                   | the range 0 - 255

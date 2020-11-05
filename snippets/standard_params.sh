@@ -1,0 +1,33 @@
+-a      All: Return all information (including hidden file info).
+--all
+-b      Brief: Short version, usually for other scripts.
+-c      Copy, concatenate, etc.
+-d      Daily: Use information from the whole day, and not merely
+        information for a specific instance/user.
+-D      Directory to read from/write into.
+-e      Extended/Elaborate: (often does not include hidden file info).
+-f      File name for input.
+--file
+-F      Force despite non-critical errors.
+--force
+-h      Help: Verbose usage w/descs, aux info, discussion, help.
+        See also -V.
+--help
+-l      List files associated with script.
+--list
+-L      Log output of script.
+-m      Manual: Launch man-page for base command.
+-n      Numbers: Numerical data only.
+-o      File to output into.
+-q      Quiet. Suppress stdout.
+--quiet
+-r      Recursive: All files in a directory (and/or all sub-dirs).
+--recursive
+-s      Setup & File Maintenance: Config files for this script.
+-u      Usage: List of invocation flags for the script.
+-v      Verbose: Human readable output, more or less formatted.
+--verbose
+-V      Version / License / Copy(right|left) / Contribs (email too).
+--version
+-z      Compress. Apply compression to files. (Usually gzip.)
+--compress

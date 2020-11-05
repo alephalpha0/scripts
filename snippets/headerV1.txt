@@ -8,7 +8,7 @@
 ####################           ###################
 #############                        #############
 ## Many thanks to those who have shared and     ##
-## discussed their dotfiles/source code/scripts ## 
+## discussed their dotfiles/source code/scripts ##
 ## on blogs, stackoverflow, dev.to, gitlab /    ##
 ## github, and any open forum for ideas on the  ##
 ##  world wide web. I am continually learning   ##

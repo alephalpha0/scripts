@@ -103,7 +103,7 @@ else
         wget --show-progress "${URL}" 
     ;;
       
-    *.tar.bz2*|*.txt*|*.html*) # getting an archive file from the web
+    *.tar.bz2*|*.txt*|*.html*|*.md*|*.zip*) # getting a file from the web
         cd "${DIR}" || likeALady
         wget --show-progress "${URL}" 
     ;;

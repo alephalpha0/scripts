@@ -40,15 +40,14 @@
 
 ### SCRIPT VARIABLES
 #sets URL to the url shared/passed to termux
-readonly URL="${1}"
-# the base download dir
-readonly DIR=~/downloads
+readonly ARGS=( "${@}" )
+readonly URL=${ARGS[1]}
 
 ##################################################
 # Gracefully exit on error like a lady.
 likeALady() {
 	echo "That dir does not appear in our time line."
-	return 1
+	return
 }
 
 
@@ -59,17 +58,19 @@ dirExists() {
     #the subdirectory we are checking.
 	local silkMouth="${1}"
 
-	if [ -d "${DIR}"/"${silkMouth}" ]
+	if [ -d ~/downloads/"${silkMouth}" ]
 	then
-	    cd "${DIR}"/"${silkMouth}" || likeALady
+	    cd ~/downloads/"${silkMouth}" || likeALady
 	else
-	    mkdir "${DIR}"/"${silkMouth}"
-	    cd "${DIR}"/"${silkMouth}" || likeALady
+	    mkdir ~/downloads/"${silkMouth}"
+	    cd ~/downloads/"${silkMouth}" || likeALady
 	fi
 }
 
 
 main(){
+# the base download dir
+local DIR=~/downloads/
 
 ##################################################
 # Main logic block. First will check that we 
@@ -77,7 +78,7 @@ main(){
 # If so, we exit, hopefully gracefully like a lady.
 if [ -z "${URL}" ]; then
     echo "You've passed an empty string to the script. "
-    return 1
+    exit
 else
 ##################################################
 # Logic train using case on URL parts to see how 
@@ -86,41 +87,39 @@ else
     
     *playlist*) #check if url is a youtube playlist
         dirExists music #check ${DIR}/music exists & cd
-        youtube-dlc --extract-audio --audio-format mp3 \
+        youtube-dl --extract-audio --audio-format mp3 \
         --audio-quality 0 \
         -o "%(playlist_title)s/%(playlist_index)02d-%(title)s.%(ext)s" \
         "${URL}"
-        return 0
     ;;
          
-    *youtube*|*youtu.be*) #check if url is youtube
+    *youtube*|*youtu.be*) #check if url is youtube, phase 1
         dirExists videos #check ${DIR}/videos exists &cd 
-        youtube-dlc -o "%(title)s.%(ext)s" "${URL}"
-        return 0
+        youtube-dl -o "%(title)s.%(ext)s" "${URL}"
     ;;
             
     *github*) #check if url is github.
         cd "${DIR}" || likeALady
-        wget --show-progress "${URL}"
-        return 0
+        wget --show-progress "${URL}" 
     ;;
       
-    *.tar.bz2|*.txt|*.md5|*.sha1|*.sha256) 
-    #getting a single file from the web
+    *.tar.bz2*|*.txt*|*.html*) # getting an archive file from the web
         cd "${DIR}" || likeALady
-        wget --show-progress "${URL}"
-        return 0
+        wget --show-progress "${URL}" 
     ;;
       
     *pornhub*) # yeah so what?
         dirExists porn # does ${DIR}/porn exist?
-        youtube-dlc "${URL}"
-        return 0
+        youtube-dl "${URL}"
+    ;;
+      
+    *blog*)
+        cd "${DIR}" || likeALady
+        wget --adjust-extension --span-hosts --convert-links --backup-converted --page-requisites "${URL}" 
     ;;
       
     *)
-        echo "I'm not sure what you want me to do here.."
-        return 1
+        echo "I'm not sure what you want me to do here..."
     ;;
     esac
 fi

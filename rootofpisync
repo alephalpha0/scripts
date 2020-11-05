@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 ##################################################
 ## alephalpha0  |   Sync website dir to phone.  ##
-## created:2020-10-19   |  modified:2020-10-30  ##
+## created:2020-10-19   |  modified:2020-11-05  ##
 ##----------------------------------------------##
 ##        https://github.com/alephalpha0        ##
 ##            http://rootofpi.me                ##
@@ -35,23 +35,27 @@ likeALady() {
 
 main() {
 	local termuxPath=~/rootofpi.me/
-	local phonePath=~/storage/shared/rootofpi.me
+	local phonePath=~/storage/shared/rootofpi.me/
+	local git=.git/
+	local jek=v2/.jekyll-cache/
     if [ -d "${termuxPath}" ]
     then
     
 	  if [ "${termuxPath}" -nt "${phonePath}" ]
 	  then
 	    rsync -avz --checksum --progress -h \
-	    "${termuxPath}" "${phonePath}"
+	    --exclude="${git}" --exclude="${jek}" \
+	     "${termuxPath}" "${phonePath}"
+	     exit 0
 	  else
 	    echo "Seems the directories are already in sync."
-	    exit
+	    exit 1
 	  fi
 
 	else
 	  echo "Your main ROP directory isn't there. \
 	  What's wrong?"
-	  exit
+	  exit 1
 	fi  
 }
 main

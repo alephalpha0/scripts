@@ -44,7 +44,7 @@ printMenu() {
 	echo "+ 4.) wget (Single File)"
 	echo "+ 5.) wget (Single Page)(Mirror)"
 	echo "${lineplus}"
-	read -p "Number?:" selection
+	read -r -p "Number?:" selection
 	# make sure to check for number entry!!
 	return $selection
 }

@@ -1,8 +1,8 @@
 gpl3Blurb() {
 	echo "    <program>  Copyright (C) <year>  <name of author>"
-	echo "    This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'."
+	echo "    This program comes with ABSOLUTELY NO WARRANTY; for details type `show w`."
 	echo "    This is free software, and you are welcome to redistribute it"
-	echo "    under certain conditions; type `show c' for details."
+	echo "    under certain conditions; type `show c` for details."
 }
 
 gpl3Warranty() {

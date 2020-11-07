@@ -31,10 +31,8 @@
 
 
 ### SCRIPT VARIABLES
-#sets ARGS to parameters passed to script.
-readonly ARGS=("${@}")
 #sets URL to the url shared/passed to termux
-readonly URL="${ARGS[1]}"
+readonly URL="$1"
 #to be used in menu selection function.
 
 # --------------------------------------------------------- #
@@ -56,7 +54,6 @@ likeALady() {
 # Parameters: $1 directory to check                         #
 # Returns: 0 for completion.                                #
 # --------------------------------------------------------- #
-
 dirExists() {
     #the subdirectory we are checking.
 	local silkMouth=~/downloads/"${1}"
@@ -126,12 +123,53 @@ printMenu() {
 	do
 	  read -p "Please input correct option:" selection
 	done 
-	return $selection
+	return "$selection"
 }
 
 main() {
 	printMenu
 	userSelect=$?
-	exit ${userSelect}
+	case "$userSelect" in
+	1)
+	  dirExists music
+	  youtube-dlc --restrict-filenames -x \
+	  --audio-format mp3 --audio-quality 0\
+	   -f bestaudio -c "${URL}" -o "%(title)s.%(ext)s"
+	  exit 0
+	;;
+
+	2)
+	  dirExists video
+	  youtube-dlc -c -f mp4 "${URL}" -o\
+	   "%(title)s.%(ext)s"
+	  exit 0
+	;;
+
+	3)
+	  dirExists video
+	  youtube-dlc -c "${URL}" -o "%(title)s.%(ext)s"
+	  exit 0
+	;;
+
+	4)
+	  dirExists files
+	  wget -c --show-progress "$URL"
+	  exit 0
+	;;
+
+	5)
+	  dirExists webpage
+	  wget --adjust-extension --span-hosts\
+	   --convert-links --backup-converted \
+	   --page-requisites "$URL"
+	   exit 0
+	;;
+
+	*)
+	  echo "????????????????????"
+	  exit 1
+	;;
+    esac
 }
+	
 main

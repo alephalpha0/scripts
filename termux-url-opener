@@ -1,127 +1,137 @@
-#!/data/data/com.termux/files/usr/bin/bash
-##################################################
-## alephalpha0  |  Download files passed to me. ##
-## created:2020-10-20   |  modified:2020-10-31  ##
-##----------------------------------------------##
-##        https://github.com/alephalpha0        ##
-##            http://rootofpi.me                ##
-####################           ###################
-#############                        #############
-## Many thanks to those who have shared and     ##
-## discussed their dotfiles/source code/scripts ## 
-## on blogs, stackoverflow, dev.to, gitlab /    ##
-## github, and any open forum for ideas on the  ##
-##  world wide web. I am continually learning   ##
-## and discovering new things because of you.   ##
-##################################################
-## There is no LICENSE attached to this file.   ##
-##     I require no attribute for its use.      ##
-## Do what thou will. That's the whole of law.  ##
-##----------------------------------------------##
-##!!!!!!!!!!NO WARRANTY PROVIDED FOR!!!!!!!!!!!!##
-##!!!!!!!!!!!ANY POSSIBLE USE EITHER!!!!!!!!!!!!##
-##################################################
-# Script takes urls passed to it and downloads the 
-# playlist, video, file or page to ~/downloads/*. 
-#
-# I'm using it as the script termux uses when a url
-# is passed to it from amother app.
-#
-# Trying to preempt myself and guess my general 
-# reasons for sharing to termux. Main use in my 
-# eyes is downloading raw files from github,
-# and downloading videos from youtube.. 
-###########################################################
+#!/bin/bash
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+#   termux-url-opener ||  Eats up URLs and spits out files. #
+#    created:2020-11-04      ||     modified:2020-11-04     #
+# product of alephalpha0's mind ////  A ROOTOFPI PRODUCTION #
+#  http://github.com/alephalpha0       http://rootofpi.me   #
+#########################         ###########################
+##################                       ####################
+# Many thanks to those who have shared and discussed their  #
+# dotfiles/source code/scripts on blogs, stackoverflow,     #
+# dev.to, gitlab / github, and any open forum for ideas on  #
+# the world wide web. I am continually learning and finding #
+# new things because of you.                                #
+#############################################################
+#############################################################
+# termux-url-opener | tui to download URLs passed to it into file.
+# Copyright (C) 2020 alephalpha0
 
-###TODO
-# Pretty up the script.
-# Add more cases to url options.
-# Make it command-line ready?
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 
 ### SCRIPT VARIABLES
+#sets ARGS to parameters passed to script.
+readonly ARGS=("${@}")
 #sets URL to the url shared/passed to termux
-readonly ARGS=( "${@}" )
-readonly URL=${ARGS[1]}
+readonly URL="${ARGS[1]}"
+#to be used in menu selection function.
 
-##################################################
-# Gracefully exit on error like a lady.
+# --------------------------------------------------------- #
+# likeALady ()                                              #
+# Gracefully gives a comment and exits like a lady.         #
+# Parameters: N/A                                           #
+# Returns: $E_NOTFOUND on completion.                       #
+# --------------------------------------------------------- #
 likeALady() {
-	echo "That dir does not appear in our time line."
-	return
+  local E_NOTFOUND=1
+	echo "That object does not appear in our time line."
+	exit ${E_NOTFOUND}
 }
 
+# --------------------------------------------------------- #
+# dirExists ()                                              #
+# Check if directory exists and cd to it. If not, mkdir     #
+# and cd.                                                   #
+# Parameters: $1 directory to check                         #
+# Returns: 0 for completion.                                #
+# --------------------------------------------------------- #
 
-##################################################
-# Two-step tussle to figure out if the dir exists. 
-# if not mkdir & cd into dir, if so just cd into it.
 dirExists() {
     #the subdirectory we are checking.
-	local silkMouth="${1}"
+	local silkMouth=~/downloads/"${1}"
 
-	if [ -d ~/downloads/"${silkMouth}" ]
+	if [ -d "${silkMouth}" ]
 	then
-	    cd ~/downloads/"${silkMouth}" || likeALady
+	    cd "${silkMouth}" || likeALady
+	    return 0
 	else
-	    mkdir ~/downloads/"${silkMouth}"
-	    cd ~/downloads/"${silkMouth}" || likeALady
+	    mkdir "${silkMouth}"
+	    cd "${silkMouth}" || likeALady
+	    return 0
 	fi
 }
-
-
-main(){
-# the base download dir
-local DIR=~/downloads/
-
-##################################################
-# Main logic block. First will check that we 
-# didn't accidentally get passed an empty string. 
-# If so, we exit, hopefully gracefully like a lady.
-if [ -z "${URL}" ]; then
-    echo "You've passed an empty string to the script. "
-    exit
-else
-##################################################
-# Logic train using case on URL parts to see how 
-# to handle downloading.
-    case ${URL} in
+# --------------------------------------------------------- #
+# printMenu ()                                              #
+# Print out a menu of download options.                     #
+# Parameters: N/A                                           #
+# Returns: $selection number selected                       #
+# --------------------------------------------------------- #
+printMenu() {
+    # background color using ANSI escape    
+    bgBlack=$(tput setab 0) # black
+    bgRed=$(tput setab 1) # red
+    bgGreen=$(tput setab 2) # green
+    bgYellow=$(tput setab 3) # yellow
+    bgBlue=$(tput setab 4) # blue
+    bgMagenta=$(tput setab 5) # magenta
+    bgCyan=$(tput setab 6) # cyan
+    bgWhite=$(tput setab 7) # white
     
-    *playlist*) #check if url is a youtube playlist
-        dirExists music #check ${DIR}/music exists & cd
-        youtube-dl --extract-audio --audio-format mp3 \
-        --audio-quality 0 \
-        -o "%(playlist_title)s/%(playlist_index)02d-%(title)s.%(ext)s" \
-        "${URL}"
-    ;;
-         
-    *youtube*|*youtu.be*) #check if url is youtube, phase 1
-        dirExists videos #check ${DIR}/videos exists &cd 
-        youtube-dl -o "%(title)s.%(ext)s" "${URL}"
-    ;;
-            
-    *github*) #check if url is github.
-        cd "${DIR}" || likeALady
-        wget --show-progress "${URL}" 
-    ;;
-      
-    *.tar.bz2*|*.txt*|*.html*|*.md*|*.zip*) # getting a file from the web
-        cd "${DIR}" || likeALady
-        wget --show-progress "${URL}" 
-    ;;
-      
-    *pornhub*) # yeah so what?
-        dirExists porn # does ${DIR}/porn exist?
-        youtube-dl "${URL}"
-    ;;
-      
-    *blog*)
-        cd "${DIR}" || likeALady
-        wget --adjust-extension --span-hosts --convert-links --backup-converted --page-requisites "${URL}" 
-    ;;
-      
-    *)
-        echo "I'm not sure what you want me to do here..."
-    ;;
-    esac
-fi
+    # foreground color using ANSI escape
+    fgBlack=$(tput setaf 0) # black
+    fgRed=$(tput setaf 1) # red
+    fgGreen=$(tput setaf 2) # green
+    fgYellow=$(tput setaf 3) # yellow
+    fgBlue=$(tput setaf 4) # blue
+    fgMagenta=$(tput setaf 5) # magenta
+    fgCyan=$(tput setaf 6) # cyan
+    fgWhite=$(tput setaf 7) # white
+    
+    # text editing options
+    txBold=$(tput bold)   # bold
+    txHalf=$(tput dim)    # half-bright
+    txUnderline=$(tput smul)   # underline
+    txEndUnder=$(tput rmul)   # exit underline
+    txReverse=$(tput rev)    # reverse
+    txStandout=$(tput smso)   # standout
+    txEndStand=$(tput rmso)   # exit standout
+    txReset=$(tput sgr0)   # reset attributes
+    
+	local selection=4
+	local lineplus="${bgBlue}${fgBlack}+++++++++++++++++++++++++++++++++++++++++++++++${txReset}"
+
+	echo "${txBold}${bgBlue}${fgBlack}Welcome to alephalpha0's Download Menu ${txReset} ${txUnderline}v.0.2.0${txReset}"
+	echo "${txHalf}+ Choose your download method option below:${txReset}"
+	echo "${txHalf}+ Script defaults to 4.)${txReset}"
+	echo "${lineplus}"
+	echo "+ 1.) Youtube-DLC (Music)(MP3)(Conversion)"
+	echo "+ 2.) Youtube-DLC (Video)(MP4)(Conversion)"
+	echo "+ 3.) Youtube-DLC (Video)(Best Audio/Video)(No conversion)"
+	echo "+ 4.) wget (Single File)"
+	echo "+ 5.) wget (Single Page)(Mirror)"
+	echo "${lineplus}"
+	read -p "Number?:" selection
+	while [[ $selection -gt 5 ]]
+	do
+	  read -p "Please input correct option:" selection
+	done 
+	return $selection
+}
+
+main() {
+	printMenu
+	userSelect=$?
+	exit ${userSelect}
 }
 main

@@ -106,22 +106,30 @@ printMenu() {
     txReset=$(tput sgr0)   # reset attributes
     
 	local selection=4
-	local lineplus="${bgBlue}${fgBlack}+++++++++++++++++++++++++++++++++++++++++++++++${txReset}"
+	local lineplus="${bgBlue}${fgBlack}\
+	+++++++++++++++++++++++++++++++++++++++++++++++\
+	${txReset}"
 
-	echo "${txBold}${bgBlue}${fgBlack}Welcome to alephalpha0's Download Menu ${txReset} ${txUnderline}v.0.2.0${txReset}"
-	echo "${txHalf}+ Choose your download method option below:${txReset}"
+	echo "${txBold}${bgBlue}${fgBlack}\
+	Welcome to alephalpha0's Download Menu ${txReset}\
+	${txUnderline} v.0.2.0${txReset}"
+	echo "${txHalf}\
+	+ Choose your download method option below:\
+	${txReset}"
 	echo "${txHalf}+ Script defaults to 4.)${txReset}"
 	echo "${lineplus}"
 	echo "+ 1.) Youtube-DLC (Music)(MP3)(Conversion)"
 	echo "+ 2.) Youtube-DLC (Video)(MP4)(Conversion)"
-	echo "+ 3.) Youtube-DLC (Video)(Best Audio/Video)(No conversion)"
+	echo "+ 3.) Youtube-DLC (Video)(Best Audio/Video)\
+	(No conversion)"
 	echo "+ 4.) wget (Single File)"
 	echo "+ 5.) wget (Single Page)(Mirror)"
 	echo "${lineplus}"
 	read -r -p "Number?:" selection
 	while [[ $selection -gt 5 ]]
 	do
-	  read -r -p "Please input correct option:" selection
+	  read -r -p "Please input correct option:" \
+	  selection
 	done 
 	return "$selection"
 }

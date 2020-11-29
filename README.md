@@ -7,4 +7,5 @@
   
 ## Sources used for reference: 
 + [ebook: TLDP's advanced bash scripting guide](https://tldp.org/LDP/abs/html/abs-guide.html) - an entire book's worth of reference in one `.html` file. Excellent explanations. 
-+ [article: tput, printf, and shell expansion](https://linuxhint.com/tput-printf-and-shell-expansions-how-to-create-awesome-outputs-with-bash-scripts/) - well written article over formatting text for shell scripts. Build better TUIs.
++ [article: tput, printf, and shell expansion](https://linuxhint.com/tput-printf-and-shell-expansions-how-to-create-awesome-outputs-with-bash-scripts/) - well written article over formatting text for shell scripts. Build better TUIs. 
++ [cheatsheet: bash](https://devhints.io/bash) - Cheatsheet over most common parts of Bash scripting.

@@ -120,8 +120,7 @@ printMenu() {
 	echo "${lineplus}"
 	echo "+ 1.) Youtube-DLC (Music)(MP3)(Conversion)"
 	echo "+ 2.) Youtube-DLC (Video)(MP4)(Conversion)"
-	echo "+ 3.) Youtube-DLC (Video)(Best Audio/Video)\
-	(No conversion)"
+	echo "+ 3.) Youtube-DLC (Video)(Best Audio/Video)(No conversion)"
 	echo "+ 4.) wget (Single File)"
 	echo "+ 5.) wget (Single Page)(Mirror)"
 	echo "${lineplus}"

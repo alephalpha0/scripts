@@ -1,0 +1,10 @@
+Currently the time is: 15:28:13
+Currently the date is: 2020-11-06
+The current logged in user is: u0_a256
+System's current uptime is: 15:28:13 up 1 day, 19:34, load average: 17.77, 18.15, 18.57
+<-------------------------------->
+Currently the time is: 15:28:29
+Currently the date is: 2020-11-06
+The current logged in user is: u0_a256
+System's current uptime is: 15:28:29 up 1 day, 19:35, load average: 17.82, 18.15, 18.56
+<-------------------------------->

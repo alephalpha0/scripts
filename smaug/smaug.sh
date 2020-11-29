@@ -1,8 +1,8 @@
+#!/bin/bash
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-#      SCRIPT_NAME_FULL      ||      CUTE_TAG_LINE          #
-#    created:202X-XX-XX      ||     modified:202X-XX-XX     #
-# product of alephalpha0's mind || alephalpha0@tutanota.com #
-# \\\\\\\\\\\\\\\\\ A ROOTOFPI PRODUCTION ///////////////// #
+#    smaug    ||      save and hoarde your personal web     #
+#    created:2020-11-11      ||     modified:202X-XX-XX     #
+# product of alephalpha0's mind ////  A ROOTOFPI PRODUCTION #
 #  http://github.com/alephalpha0       http://rootofpi.me   #
 #########################         ###########################
 ##################                       ####################
@@ -13,8 +13,8 @@
 # new things because of you.                                #
 #############################################################
 #############################################################
-# <one line to give the program's name and a brief idea of what it does.>
-# Copyright (C) 2020X  alephalpha0 [alephalpha0@tutanota.com]
+# smaug - save and hoarde your personal web archive.
+# Copyright (C) 20200  alephalpha0
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,10 +29,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+usePerc() {
+	local epub="percollate epub"
+	local html="percollate html"
+	local E_Result
+	local choice=$1
+	
 
-# --------------------------------------------------------- #
-# FunctionName ()                                           #
-# Description of function use. What it does.                #
-# Parameters: $param1 $param2 $param3 {...}                 #
-# Returns: 0 on success, $E_ERRORNUM on failure.            #
-# --------------------------------------------------------- #
+	case "${1}" in
+	1)
+	  ${epub} -o 
+
+	
+}

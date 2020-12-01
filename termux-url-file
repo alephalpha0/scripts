@@ -1,0 +1,168 @@
+#!/bin/sh
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+#   termux-url-file ||  Eats up URLs and deals with files.  #
+#    created:2020-11-30      ||     modified:2020-11-30     #
+#                                                           #
+# product of alephalpha0's mind || alephalpha0@tutanota.com #
+# \\\\\\\\\\\\\\\\\ A ROOTOFPI PRODUCTION ///////////////// #
+#  http://github.com/alephalpha0       http://rootofpi.me   #
+#########################         ###########################
+##################                       ####################
+# Many thanks to those who have shared and discussed their  #
+# dotfiles/source code/scripts on blogs, stackoverflow,     #
+# dev.to, gitlab / github, and any open forum for ideas on  #
+# the world wide web. I am continually learning and finding #
+# new things because of you.                                #
+#############################################################
+#############################################################
+# termux-url-file | tui to deal with passing URLs and files
+#				    to termux via android's share menu.
+# Copyright (C) 2020 alephalpha0@tutanota.com
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+### SCRIPT VARIABLES
+#sets URL to the url shared/passed to termux
+#to be used in menu selection function.
+file="${1}"
+
+## fun terminal colors!
+# background color using ANSI escape    
+bgBlue=$(tput setab 4) # blue
+# foreground color using ANSI escape
+fgBlack=$(tput setaf 0) # black
+# text editing options
+txBold=$(tput bold)   # bold
+txUnderline=$(tput smul)   # underline
+txReset=$(tput sgr0)   # reset attributes
+
+#menu repetitions.
+lineplus() {
+	echo "${bgBlue}${fgBlack}++++++++++++++++++++++++++++++++++++++++++++++++++${txReset}"
+}
+# --------------------------------------------------------- #
+# likeALady ()                                              #
+# Gracefully gives a comment and exits like a lady.         #
+# Parameters: N/A                                           #
+# Returns: $E_NOTFOUND on completion.                       #
+# --------------------------------------------------------- #
+likeALady() {
+  local E_NOTFOUND=1
+	echo "That object does not appear in our time line."
+	exit ${E_NOTFOUND}
+}
+
+# --------------------------------------------------------- #
+# dirExists ()                                              #
+# Check if directory exists and cd to it. If not, mkdir     #
+# and cd.                                                   #
+# Parameters: $1 directory to check                         #
+# Returns: 0 for completion.                                #
+# --------------------------------------------------------- #
+dirExists() {
+    #the subdirectory we are checking.
+	local silkMouth=~/downloads/"${1}"
+
+	if [ -d "${silkMouth}" ]
+	then
+	    cd "${silkMouth}" || likeALady
+	    return 0
+	else
+	    mkdir "${silkMouth}"
+	    cd "${silkMouth}" || likeALady
+	    return 0
+	fi
+}
+
+if [ -z "${file}" ]
+then
+  echo "I've been given nothing to work with."
+  return 1
+fi
+
+lineplus
+echo "${txBold}${txUnderline}alephalpha0's File Download/Editor Selection Menu${txReset}"
+lineplus
+lineplus
+echo "${txBold}${txUnderline}+ Chose an option below, download or edit.${txReset}"
+lineplus
+echo "+ 1) Download file into Termux FS."
+echo "+ 2) Open up file with Micro for editing."
+read -r -p "Option:" selection
+while [[ $selection -gt 2 ]] || [[ $selection -lt 1 ]]
+do
+  read -r -p "Please input correct option:" selection
+done
+case "$selection" in
+1)
+  lineplus
+  echo "${txBold}${txUnderline}Options to download that file${txReset}"
+  lineplus
+  echo "+ 1.) Youtube-DLC (Music)(MP3)(Conversion)"
+  echo "+ 2.) Youtube-DLC (Video)(MP4)(Conversion)"
+  echo "+ 3.) Youtube-DLC (Video)(Best Audio/Video)(No conversion)"
+  echo "+ 4.) wget (Single File)"
+  echo "+ 5.) wget (Single Page)(Mirror)"
+  read -r -p "Option:" download
+  while [[ $download -gt 5 ]] || [[ $download -lt 1 ]]
+  do
+    read -r -p "Please input correct option:" download
+  done
+
+  case "$download" in
+  1)
+  	  dirExists music
+  	  youtube-dlc --restrict-filenames -x --audio-format mp3 --audio-quality 0 -f bestaudio -c "${file}" -o "%(title)s.%(ext)s"
+  	  exit 0
+  	;;
+  
+  	2)
+  	  dirExists video
+  	  youtube-dlc -c -f mp4 "${file}" -o "%(title)s.%(ext)s"
+  	  exit 0
+  	;;
+  
+  	3)
+  	  dirExists video
+  	  youtube-dlc -c "${file}" -o "%(title)s.%(ext)s"
+  	  exit 0
+  	;;
+  
+  	4)
+  	  dirExists files
+  	  wget -c --show-progress "${file}"
+  	  exit 0
+  	;;
+  
+  	5)
+  	  dirExists webpage
+  	  wget --adjust-extension --span-hosts --convert-links --backup-converted --page-requisites "${file}"
+      exit 0
+  	;;
+  
+  	*)
+  	  echo "????????????????????"
+  	  exit 1
+  	;;
+      esac
+  
+  ;;
+2)
+  $EDITOR "${file}"
+  return 0
+  ;;
+*)
+  return 1
+  ;;
+esac

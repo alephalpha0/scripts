@@ -19,6 +19,8 @@
 #### Change Log Abridged:
 > 2020-08-XX In the beginning there was `termux-url-opener` and `ropsync`. Neither were very good or interesting. I kept clobbering away at `termux-url-opener` and creating little explosion scripts trying to get my feet wet.
 ..
+
 > 2021-01-XX [Termux](https://termux.com) is my main touchpoint and tool in teaching myself programming, maintaining content with a static site generator, and just general "sysadmin" type shit. Its ability to receive multiple data/URL/URI types shared from various apps and sources is continually sparking my imagination and showing me sidways routes to accomplish things I want. 
 ..
-> 2021-02-10 After changing to another new phone, I am now using the Termux.widget to gain more functionality with my phone and brain.`newLog` is sitting happily symlinked to `~/.shortcuts` and being hacked together at random times. My logic train runs fairly well for it, and I'm oddly proud at what it produces. `fileDown` is the next incarnation of the script I have Termux use to handle URLs passed to it. Somewhere along the way it dawned on me to use symbolic links so I didn't have to be constrained to default expectations while still fulfilling them. 
+
+> 2021-02-10 After changing to another new phone, I am now using the Termux.widget to gain more functionality with my phone and brain.`newLog` is sitting happily symlinked to `~/.shortcuts` and being hacked together at random times. My logic train runs fairly well for it, and I'm oddly proud at what it produces. `fileDown` is the next incarnation of the script I have Termux use to handle URLs passed to it. Somewhere along the way it dawned on me to use symbolic links so I didn't have to be constrained to default expectations while still fulfilling them.  

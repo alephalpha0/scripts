@@ -1,2 +1,0 @@
-one to use a for loop to iterate over every figlet/toilet font in projects/figlet-fonts ajd use it to print out "Errata" and put the ascii banner in a txt file.
-

@@ -3,7 +3,9 @@
 
 #### `newlog.sh` is a general script to get the new blog entry's title from stdin and concatenate the current date to the beginning and `.md` to the end and open the resulting file in `$EDITOR`. Wham bam, thank ya ma'am. 
 
-#### `fileDown.sh` is the baby beginnings of my third round with creating a script for passing URLs to termux via the android share menu. Requires `wget` at this point in history. 
+#### `fileDown.sh` is the baby beginnings of my third round with creating a script for passing URLs to termux via the android share menu. Requires `wget` and `youtube-dl` at this point in history. 
+
+#### `figFont.sh` is an almost useless script that takes a FIGlet font file name and outputs the banner text to a static file, and the command to regenerate the banner.
 
 ----
   
@@ -24,3 +26,5 @@
 ..
 
 > 2021-02-10 After changing to another new phone, I am now using the Termux.widget to gain more functionality with my phone and brain.`newLog` is sitting happily symlinked to `~/.shortcuts` and being hacked together at random times. My logic train runs fairly well for it, and I'm oddly proud at what it produces. `fileDown` is the next incarnation of the script I have Termux use to handle URLs passed to it. Somewhere along the way it dawned on me to use symbolic links so I didn't have to be constrained to default expectations while still fulfilling them.  
+
+> 2021-02-19 I made figFont.sh because I wanted to quickly get a local reference file for FIGlet font styles. 
